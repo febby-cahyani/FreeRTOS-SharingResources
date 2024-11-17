@@ -51,7 +51,13 @@ Pinout Hardware :
 ![Pinout Hardware FreeRTOS](https://github.com/user-attachments/assets/8b814f64-fa02-4ee5-a5e5-d6a85f395bb2)
 
 Hasil Hardware :
+- Normal
+  
+  ![7-Normal-GIF](https://github.com/user-attachments/assets/57d77d0a-e2cb-4ea0-9065-7532f436db3e)
 
+- Problem
+  
+  ![7-Konflik-GIF](https://github.com/user-attachments/assets/e03459c3-05f4-417a-a1f3-0cbc090ad297)
 
 
 Hasil dari proyek ini sebagai berikut :
