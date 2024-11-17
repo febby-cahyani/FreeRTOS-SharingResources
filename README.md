@@ -43,6 +43,7 @@ Cara Kerja :
 
 Ringkasan Perilaku LED :
 
+![Screenshot 2024-11-17 133611](https://github.com/user-attachments/assets/a70f9518-9b90-439b-8418-d0b43b5269ed)
 
 
 Pinout Hardware :
