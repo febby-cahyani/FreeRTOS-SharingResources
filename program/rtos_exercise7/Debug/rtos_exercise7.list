@@ -35,17 +35,17 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  15 .debug_rnglists 00000d9f  00000000  00000000  0001dd70  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00002d40  00000000  00000000  0001eb0f  2**0
+ 16 .debug_macro  00002d4c  00000000  00000000  0001eb0f  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00012cd8  00000000  00000000  0002184f  2**0
+ 17 .debug_line   00012cd8  00000000  00000000  0002185b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000950ed  00000000  00000000  00034527  2**0
+ 18 .debug_str    000950f6  00000000  00000000  00034533  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  000c9614  2**0
+ 19 .comment      00000043  00000000  00000000  000c9629  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00004d08  00000000  00000000  000c9658  2**2
+ 20 .debug_frame  00004d08  00000000  00000000  000c966c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000065  00000000  00000000  000ce360  2**0
+ 21 .debug_line_str 00000065  00000000  00000000  000ce374  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -389,8 +389,8 @@ int main(void)
   MX_GPIO_Init();
  80004ee:	f000 f8ad 	bl	800064c <MX_GPIO_Init>
   /* USER CODE BEGIN 2 */
-  HAL_GPIO_WritePin(led3_GPIO_Port, led3_Pin, GPIO_PIN_SET);
- 80004f2:	2201      	movs	r2, #1
+  HAL_GPIO_WritePin(led3_GPIO_Port, led3_Pin, HIGH);
+ 80004f2:	2200      	movs	r2, #0
  80004f4:	f44f 6100 	mov.w	r1, #2048	@ 0x800
  80004f8:	4817      	ldr	r0, [pc, #92]	@ (8000558 <main+0x88>)
  80004fa:	f000 fd5d 	bl	8000fb8 <HAL_GPIO_WritePin>
@@ -647,8 +647,8 @@ static void MX_GPIO_Init(void)
  8000698:	687b      	ldr	r3, [r7, #4]
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, led1_Pin|led2_Pin|led3_Pin|led4_Pin, GPIO_PIN_RESET);
- 800069a:	2200      	movs	r2, #0
+  HAL_GPIO_WritePin(GPIOA, led1_Pin|led2_Pin|led3_Pin|led4_Pin, GPIO_PIN_SET);
+ 800069a:	2201      	movs	r2, #1
  800069c:	f44f 51f0 	mov.w	r1, #7680	@ 0x1e00
  80006a0:	480b      	ldr	r0, [pc, #44]	@ (80006d0 <MX_GPIO_Init+0x84>)
  80006a2:	f000 fc89 	bl	8000fb8 <HAL_GPIO_WritePin>
@@ -701,8 +701,8 @@ void AccessSharedData(void) {
  80006e6:	e005      	b.n	80006f4 <AccessSharedData+0x20>
     } else {
         // Resource contention: Turn on Blue LED
-        HAL_GPIO_WritePin(led3_GPIO_Port, led3_Pin, GPIO_PIN_SET);
- 80006e8:	2201      	movs	r2, #1
+        HAL_GPIO_WritePin(led3_GPIO_Port, led3_Pin, HIGH);
+ 80006e8:	2200      	movs	r2, #0
  80006ea:	f44f 6100 	mov.w	r1, #2048	@ 0x800
  80006ee:	4809      	ldr	r0, [pc, #36]	@ (8000714 <AccessSharedData+0x40>)
  80006f0:	f000 fc62 	bl	8000fb8 <HAL_GPIO_WritePin>
@@ -719,8 +719,8 @@ void AccessSharedData(void) {
  80006fc:	701a      	strb	r2, [r3, #0]
 
     // Turn off Blue LED (if it was turned on during contention)
-    HAL_GPIO_WritePin(led3_GPIO_Port, led3_Pin, GPIO_PIN_RESET);
- 80006fe:	2200      	movs	r2, #0
+    HAL_GPIO_WritePin(led3_GPIO_Port, led3_Pin, LOW);
+ 80006fe:	2201      	movs	r2, #1
  8000700:	f44f 6100 	mov.w	r1, #2048	@ 0x800
  8000704:	4803      	ldr	r0, [pc, #12]	@ (8000714 <AccessSharedData+0x40>)
  8000706:	f000 fc57 	bl	8000fb8 <HAL_GPIO_WritePin>
@@ -810,8 +810,8 @@ void GreenTask(void *argument)
  800076a:	2201      	movs	r2, #1
  800076c:	701a      	strb	r2, [r3, #0]
 	// Turn on Green LED
-	HAL_GPIO_WritePin(led1_GPIO_Port, led1_Pin, GPIO_PIN_SET);
- 800076e:	2201      	movs	r2, #1
+	HAL_GPIO_WritePin(led1_GPIO_Port, led1_Pin, HIGH);
+ 800076e:	2200      	movs	r2, #0
  8000770:	f44f 7100 	mov.w	r1, #512	@ 0x200
  8000774:	480d      	ldr	r0, [pc, #52]	@ (80007ac <GreenTask+0x4c>)
  8000776:	f000 fc1f 	bl	8000fb8 <HAL_GPIO_WritePin>
@@ -828,8 +828,8 @@ void GreenTask(void *argument)
 	osDelay(200);
  8000786:	20c8      	movs	r0, #200	@ 0xc8
  8000788:	f001 fc54 	bl	8002034 <osDelay>
-	HAL_GPIO_WritePin(led1_GPIO_Port, led1_Pin, GPIO_PIN_RESET);
- 800078c:	2200      	movs	r2, #0
+	HAL_GPIO_WritePin(led1_GPIO_Port, led1_Pin, LOW);
+ 800078c:	2201      	movs	r2, #1
  800078e:	f44f 7100 	mov.w	r1, #512	@ 0x200
  8000792:	4806      	ldr	r0, [pc, #24]	@ (80007ac <GreenTask+0x4c>)
  8000794:	f000 fc10 	bl	8000fb8 <HAL_GPIO_WritePin>
@@ -868,8 +868,8 @@ void RedTask(void *argument)
  80007ba:	2201      	movs	r2, #1
  80007bc:	701a      	strb	r2, [r3, #0]
 	// Turn on Red LED
-	HAL_GPIO_WritePin(led2_GPIO_Port, led2_Pin, GPIO_PIN_SET);
- 80007be:	2201      	movs	r2, #1
+	HAL_GPIO_WritePin(led2_GPIO_Port, led2_Pin, HIGH);
+ 80007be:	2200      	movs	r2, #0
  80007c0:	f44f 6180 	mov.w	r1, #1024	@ 0x400
  80007c4:	480e      	ldr	r0, [pc, #56]	@ (8000800 <RedTask+0x50>)
  80007c6:	f000 fbf7 	bl	8000fb8 <HAL_GPIO_WritePin>
@@ -886,8 +886,8 @@ void RedTask(void *argument)
 	osDelay(550);
  80007d6:	f240 2026 	movw	r0, #550	@ 0x226
  80007da:	f001 fc2b 	bl	8002034 <osDelay>
-	HAL_GPIO_WritePin(led2_GPIO_Port, led2_Pin, GPIO_PIN_RESET);
- 80007de:	2200      	movs	r2, #0
+	HAL_GPIO_WritePin(led2_GPIO_Port, led2_Pin, LOW);
+ 80007de:	2201      	movs	r2, #1
  80007e0:	f44f 6180 	mov.w	r1, #1024	@ 0x400
  80007e4:	4806      	ldr	r0, [pc, #24]	@ (8000800 <RedTask+0x50>)
  80007e6:	f000 fbe7 	bl	8000fb8 <HAL_GPIO_WritePin>

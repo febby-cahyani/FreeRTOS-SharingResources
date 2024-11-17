@@ -32,7 +32,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define HIGH GPIO_PIN_RESET
+#define LOW GPIO_PIN_SET
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -124,7 +125,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-  HAL_GPIO_WritePin(led3_GPIO_Port, led3_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(led3_GPIO_Port, led3_Pin, HIGH);
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -240,7 +241,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, led1_Pin|led2_Pin|led3_Pin|led4_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, led1_Pin|led2_Pin|led3_Pin|led4_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pins : led1_Pin led2_Pin led3_Pin led4_Pin */
   GPIO_InitStruct.Pin = led1_Pin|led2_Pin|led3_Pin|led4_Pin;
@@ -260,7 +261,7 @@ void AccessSharedData(void) {
         StartFlag = 0;
     } else {
         // Resource contention: Turn on Blue LED
-        HAL_GPIO_WritePin(led3_GPIO_Port, led3_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(led3_GPIO_Port, led3_Pin, HIGH);
     }
 
     // Simulate read/write operations with a delay of 500 milliseconds
@@ -270,7 +271,7 @@ void AccessSharedData(void) {
     StartFlag = 1;
 
     // Turn off Blue LED (if it was turned on during contention)
-    HAL_GPIO_WritePin(led3_GPIO_Port, led3_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(led3_GPIO_Port, led3_Pin, LOW);
 }
 
 void SimulateReadWriteOperation(void) {
@@ -317,7 +318,7 @@ void GreenTask(void *argument)
   {
 	GreenFlag = 1;
 	// Turn on Green LED
-	HAL_GPIO_WritePin(led1_GPIO_Port, led1_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(led1_GPIO_Port, led1_Pin, HIGH);
 
 	// Enter critical section
 	taskENTER_CRITICAL();
@@ -326,7 +327,7 @@ void GreenTask(void *argument)
 
 	// Turn off Green LED
 	osDelay(200);
-	HAL_GPIO_WritePin(led1_GPIO_Port, led1_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(led1_GPIO_Port, led1_Pin, LOW);
 
 	GreenFlag = 0;
 	// Delay for 500 milliseconds
@@ -350,7 +351,7 @@ void RedTask(void *argument)
   {
 	RedFlag = 1;
 	// Turn on Red LED
-	HAL_GPIO_WritePin(led2_GPIO_Port, led2_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(led2_GPIO_Port, led2_Pin, HIGH);
 
 	// Enter critical section
 	taskENTER_CRITICAL();
@@ -359,7 +360,7 @@ void RedTask(void *argument)
 
 	// Turn off Red LED
 	osDelay(550);
-	HAL_GPIO_WritePin(led2_GPIO_Port, led2_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(led2_GPIO_Port, led2_Pin, LOW);
 
 	RedFlag = 0;
 	// Delay for 100 milliseconds
